@@ -11,23 +11,7 @@ namespace _4_Column_Shopping_List
             InitializeComponent();
         }
         SpeechSynthesizer speechSynthesizerObj;
-        private void BreakfastAddBTN_Click(object sender, System.EventArgs e)
-        {
-            //if breakfastentrytb has length >=2 add item to listbox
-            if ( BreakfastEntryTB.Text.Length >2 )
-            {
-                //add item in textbox to list
-                speechSynthesizerObj = new SpeechSynthesizer();
-                speechSynthesizerObj.Speak(BreakfastEntryTB.Text.ToString()
-                    + " added");
-                //put contents of textbox into listbox
-                BreakfastListLB.Items.Add(BreakfastEntryTB.Text);
-                BreakfastEntryTB.Clear();  //clear textbox
-                BreakfastEntryTB.Focus();  //return to input box
-                BreakfastItemCountTB.Text = BreakfastListLB.Items.Count + " Items";
-            }
-        }
-
+        
         private void BreakfastDeleteBTN_Click(object sender, System.EventArgs e)
         {
             if (BreakfastListLB.SelectedIndex > -1)  //if an item is selected
@@ -64,21 +48,6 @@ namespace _4_Column_Shopping_List
             speechSynthesizerObj.Speak("Welcome to the 4 column shopping list");
         }
 
-        private void LunchAddBTN_Click(object sender, System.EventArgs e)
-        {
-            if (LunchEntryTB.Text.Length > 2)
-            {
-                //add item in textbox to list
-                speechSynthesizerObj = new SpeechSynthesizer();
-                speechSynthesizerObj.Speak(LunchEntryTB.Text.ToString()
- + " added");
-                LunchListLB.Items.Add(LunchEntryTB.Text);
-                LunchEntryTB.Clear();  //clear textbox
-                LunchEntryTB.Focus();  //return to input box
-                LunchItemCountTB.Text = LunchListLB.Items.Count + " Items";
-            }
-        }
-
         private void LunchDeleteBTN_Click(object sender, System.EventArgs e)
         {
             if (LunchListLB.SelectedIndex > -1)  //if am item is selected
@@ -91,7 +60,7 @@ namespace _4_Column_Shopping_List
             else
                 speechSynthesizerObj.Speak("Select a lunch item first");
         }
-
+                
         private void LunchSpeakBTN_Click(object sender, System.EventArgs e)
         {
             if (LunchListLB.Items.Count > 0)
@@ -107,6 +76,101 @@ namespace _4_Column_Shopping_List
             else
                 speechSynthesizerObj.Speak("There are No items in the lunch list");
         }
+                
+        private void BreakfastEntryTB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                //if breakfastentrytb has length >=2 add item to listbox
+                if (BreakfastEntryTB.Text.Length > 2)
+                {
+                    //add item in textbox to list
+                    speechSynthesizerObj = new SpeechSynthesizer();
+                    speechSynthesizerObj.Speak(BreakfastEntryTB.Text.ToString()
+                        + " added");
+                    //put contents of textbox into listbox
+                    BreakfastListLB.Items.Add(BreakfastEntryTB.Text);
+                    BreakfastEntryTB.Clear();  //clear textbox
+                    BreakfastEntryTB.Focus();  //return to input box
+                    BreakfastItemCountTB.Text = BreakfastListLB.Items.Count + " Items";
+                }
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+
+            }
+        }
+
+        private void LunchEntryTB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                //if lunchentrytb has length >=2 add item to listbox
+                if (LunchEntryTB.Text.Length > 2)
+                {
+                    //add item in textbox to list
+                    speechSynthesizerObj = new SpeechSynthesizer();
+                    speechSynthesizerObj.Speak(LunchEntryTB.Text.ToString()
+                        + " added");
+                    //put contents of textbox into listbox
+                    LunchListLB.Items.Add(LunchEntryTB.Text);
+                    LunchEntryTB.Clear();  //clear textbox
+                    LunchEntryTB.Focus();  //return to input box
+                    LunchItemCountTB.Text = LunchListLB.Items.Count + " Items";
+                }
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void DinnerDeleteBTN_Click(object sender, System.EventArgs e)
+        {
+            if (DinnerListLB.SelectedIndex > -1)  //if am item is selected
+            {
+                speechSynthesizerObj = new SpeechSynthesizer();
+                speechSynthesizerObj.Speak(DinnerListLB.SelectedItem + " removed");
+                DinnerListLB.Items.RemoveAt(DinnerListLB.SelectedIndex);
+                DinnerItemCountTB.Text = DinnerListLB.Items.Count + " Items";
+            }
+            else
+                speechSynthesizerObj.Speak("Select a Dinner item first");
+        }
+
+        private void DinnerSpeakBTN_Click(object sender, System.EventArgs e)
+        {
+            if (DinnerListLB.Items.Count > 0)
+            {
+                speechSynthesizerObj = new SpeechSynthesizer();
+                speechSynthesizerObj.Speak("You have " + DinnerListLB.Items.Count + " Dinner items as follows:");
+
+                for (int i = 0; i < DinnerListLB.Items.Count; i++)
+                {
+                    speechSynthesizerObj.Speak(DinnerListLB.Items[i].ToString());
+                }
+            }
+            else
+                speechSynthesizerObj.Speak("There are no items in the dinner list");
+        }
+
+        private void DinnerEntryTB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                //if Dinnerentrytb has length >=2 add item to listbox
+                if (DinnerEntryTB.Text.Length > 2)
+                {
+                    //add item in textbox to list
+                    speechSynthesizerObj = new SpeechSynthesizer();
+                    speechSynthesizerObj.Speak(DinnerEntryTB.Text.ToString()
+                        + " added");
+                    //put contents of textbox into listbox
+                    DinnerListLB.Items.Add(DinnerEntryTB.Text);
+                    DinnerEntryTB.Clear();  //clear textbox
+                    DinnerEntryTB.Focus();  //return to input box
+                    DinnerItemCountTB.Text = DinnerListLB.Items.Count + " Items";
+                }
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
     }
-   
 }
