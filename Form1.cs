@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
-using System.Speech;  //allows speech synthesis
 using System.Speech.Synthesis;
+
 namespace _4_Column_Shopping_List
 {
 
@@ -10,48 +10,68 @@ namespace _4_Column_Shopping_List
         {
             InitializeComponent();
         }
-        SpeechSynthesizer speechSynthesizerObj; 
+        SpeechSynthesizer speechSynthesizerObj;
         
+        #region DELETE BUTTONS
         private void BreakfastDeleteBTN_Click(object sender, System.EventArgs e)
         {
             if (BreakfastListLB.SelectedIndex > -1)  //if an item is selected
             {   //remove item from list
+                StatusTB.Text = "Removed Breakfast Item " + BreakfastListLB.SelectedItem;
                 BreakfastListLB.Items.RemoveAt(BreakfastListLB.SelectedIndex);
                 //Update item count
                 BreakfastItemCountTB.Text = BreakfastListLB.Items.Count + " Items";
             }
         }
 
-        private void Form1_Load(object sender, System.EventArgs e)
-        {
-            //set combobox to first item so it's not blank on top
-            SpeakListCB.SelectedIndex = 0;
-        }
-
         private void LunchDeleteBTN_Click(object sender, System.EventArgs e)
         {
             if (LunchListLB.SelectedIndex > -1)  //if am item is selected
             {
+                StatusTB.Text = "Removed lunch Item " + LunchListLB.SelectedItem;
                 LunchListLB.Items.RemoveAt(LunchListLB.SelectedIndex);
-                LunchItemCountTB.Text = LunchListLB.Items.Count + " Items";
+               LunchItemCountTB.Text = LunchListLB.Items.Count + " Items";
             }
         }
-                
+
+        private void DinnerDeleteBTN_Click(object sender, System.EventArgs e)
+        {
+            if (DinnerListLB.SelectedIndex > -1)  //if am item is selected
+            {
+                StatusTB.Text = "Removed dinner Item " + DinnerListLB.SelectedItem;
+                DinnerListLB.Items.RemoveAt(DinnerListLB.SelectedIndex);
+                DinnerItemCountTB.Text = DinnerListLB.Items.Count + " Items";
+            }
+        }
+
+        private void ExtrasDeleteBTN_Click(object sender, System.EventArgs e)
+        {
+            if (ExtrasListLB.SelectedIndex > -1)  //if am item is selected
+            {
+                StatusTB.Text = "Removed extras Item " + ExtrasListLB.SelectedItem;
+                ExtrasListLB.Items.RemoveAt(ExtrasListLB.SelectedIndex);
+                ExtrasItemCountTB.Text = ExtrasListLB.Items.Count + " Items";
+            }
+        }
+        #endregion
+
+        #region KEYDOWN EVENTS
         private void BreakfastEntryTB_KeyDown(object sender, KeyEventArgs e)
         {
             //if enter is hit while in BreakfastEntryTB
             if (e.KeyCode == Keys.Enter)
             {
-                //if breakfastentrytb has length >=2 add item to listbox
+                //if breakfastEntryTB has length >=2 add item to listbox
                 if (BreakfastEntryTB.Text.Length > 2)
                 {
                     //add item in textbox to list
                     BreakfastListLB.Items.Add(BreakfastEntryTB.Text);
+                    StatusTB.Text = "Added breakfast Item " + BreakfastEntryTB.Text;
                     BreakfastEntryTB.Clear();  //clear textbox
                     BreakfastEntryTB.Focus();  //return to input box
                     BreakfastItemCountTB.Text = BreakfastListLB.Items.Count + " Items";
                 }
-                e.Handled = true;  //prefvents ding when hitting enter
+                e.Handled = true;  //prevents ding when hitting enter
                 e.SuppressKeyPress = true;
 
             }
@@ -65,21 +85,13 @@ namespace _4_Column_Shopping_List
                 if (LunchEntryTB.Text.Length > 2)
                 {
                     LunchListLB.Items.Add(LunchEntryTB.Text);
+                    StatusTB.Text = "Added lunch Item " + LunchEntryTB.Text;
                     LunchEntryTB.Clear();  //clear textbox
                     LunchEntryTB.Focus();  //return to input box
                     LunchItemCountTB.Text = LunchListLB.Items.Count + " Items";
                 }
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-            }
-        }
-
-        private void DinnerDeleteBTN_Click(object sender, System.EventArgs e)
-        {
-            if (DinnerListLB.SelectedIndex > -1)  //if am item is selected
-            {
-                DinnerListLB.Items.RemoveAt(DinnerListLB.SelectedIndex);
-                DinnerItemCountTB.Text = DinnerListLB.Items.Count + " Items";
             }
         }
 
@@ -92,6 +104,7 @@ namespace _4_Column_Shopping_List
                 {
                     //put contents of textbox into listbox
                     DinnerListLB.Items.Add(DinnerEntryTB.Text);
+                    StatusTB.Text = "Added dinner Item " + DinnerEntryTB.Text;
                     DinnerEntryTB.Clear();  //clear textbox
                     DinnerEntryTB.Focus();  //return to input box
                     DinnerItemCountTB.Text = DinnerListLB.Items.Count + " Items";
@@ -100,6 +113,26 @@ namespace _4_Column_Shopping_List
                 e.SuppressKeyPress = true;
             }
         }
+
+        private void ExtrasEntryTB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                //if Extrasentrytb has length >=2 add item to listbox
+                if (ExtrasEntryTB.Text.Length > 2)
+                {
+                    //put contents of textbox into listbox
+                    ExtrasListLB.Items.Add(ExtrasEntryTB.Text);
+                    StatusTB.Text = "Added extras Item " + ExtrasEntryTB.Text;
+                    ExtrasEntryTB.Clear();  //clear textbox
+                    ExtrasEntryTB.Focus();  //return to input box
+                    ExtrasItemCountTB.Text = ExtrasListLB.Items.Count + " Items";
+                }
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+        #endregion 
 
         private void SpeakListBTN_Click(object sender, System.EventArgs e)
         {
@@ -163,41 +196,16 @@ namespace _4_Column_Shopping_List
             }
         }
 
-        private void ExtrasDeleteBTN_Click(object sender, System.EventArgs e)
-        {
-            if (ExtrasListLB.SelectedIndex > -1)  //if am item is selected
-            {
-                ExtrasListLB.Items.RemoveAt(ExtrasListLB.SelectedIndex);
-                ExtrasItemCountTB.Text = ExtrasListLB.Items.Count + " Items";
-            }
-        }
-
-        private void ExtrasEntryTB_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                //if Extrasentrytb has length >=2 add item to listbox
-                if (ExtrasEntryTB.Text.Length > 2)
-                {
-                    //put contents of textbox into listbox
-                    ExtrasListLB.Items.Add(ExtrasEntryTB.Text);
-                    ExtrasEntryTB.Clear();  //clear textbox
-                    ExtrasEntryTB.Focus();  //return to input box
-                    ExtrasItemCountTB.Text = ExtrasListLB.Items.Count + " Items";
-                }
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
         private void SaveListBTN_Click(object sender, System.EventArgs e)
         {   
             //use the savefile dialog to gat a file name to save to.
             ListSave.ShowDialog();
-            
+
             //start saving items to selected file
             //for each category, it prints the list name, and items
             System.IO.StreamWriter SaveFile = new System.IO.StreamWriter(ListSave.FileName);
+            StatusTB.Text = "List saved to " + ListSave.FileName;
+            
             SaveFile.WriteLine("BREAKFAST");
             foreach (var item in BreakfastListLB.Items)
 {
@@ -222,6 +230,13 @@ namespace _4_Column_Shopping_List
                 SaveFile.WriteLine("    " + item.ToString());
             }
             SaveFile.Close();  //close file, we're all done
+        }
+
+        private void Form1_Load(object sender, System.EventArgs e)
+        {
+            //set combobox to first item so it's not blank on top
+            SpeakListCB.SelectedIndex = 0;
+            StatusTB.Text = "Hello!  Type in list items then hit enter.";
         }
     }
 }
