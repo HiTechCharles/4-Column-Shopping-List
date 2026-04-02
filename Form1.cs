@@ -1,79 +1,127 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.IO;
 using System.Speech.Synthesis;
+using System.Text;
+using System.Windows.Forms;
 
 namespace _4_Column_Shopping_List
 {
-
     public partial class Form1 : Form
     {
+        private enum ListCategory
+        {
+            Breakfast = 0,
+            Lunch = 1,
+            Dinner = 2,
+            Extras = 3
+        }
+
+        private SpeechSynthesizer speechSynthesizer;
+        public static string AppDirectory = Path.Combine(
+            Environment.GetEnvironmentVariable("onedriveconsumer") ?? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            "documents", "4-Column Shopping List");  //application directory
+        public static string SelectedFile = Path.Combine(AppDirectory, "Shopping List.txt"); //output order list file
+
         public Form1()
         {
             InitializeComponent();
+
+            Directory.CreateDirectory(AppDirectory); //ensure application directory exists
+            // Initialize reusable synthesizer once to avoid repeated allocations.
+            speechSynthesizer = new SpeechSynthesizer();
+            speechSynthesizer.Rate = 3; // set a faster speaking rate
+            speechSynthesizer.Volume = 100; // set max volume
         }
-        SpeechSynthesizer speechSynthesizerObj;
-        
+
+        #region Helper Methods
+
+        private void UpdateStatus(string text)
+        {
+            StatusTB.Text = text;
+        }
+
+        private void UpdateCount(ListBox listBox, TextBox countTextBox)
+        {
+            var count = listBox.Items.Count;
+            countTextBox.Text = $"{count} Item{(count == 1 ? "" : "s")}";
+        }
+
+        private void AddItemFromEntry(TextBox entry, ListBox listBox, TextBox countTextBox, string categoryLabel)
+        {
+            var text = entry.Text?.Trim();
+            if (string.IsNullOrEmpty(text) || text.Length < 2)
+                return;
+
+            listBox.Items.Add(text);
+            UpdateStatus($"Added {categoryLabel} Item '{text}'");
+            entry.Clear();
+            entry.Focus();
+            UpdateCount(listBox, countTextBox);
+        }
+
+        private void DeleteSelectedItem(ListBox listBox, TextBox countTextBox, string categoryLabel)
+        {
+            if (listBox.SelectedIndex <= -1)
+                return;
+
+            var removed = listBox.SelectedItem?.ToString();
+            listBox.Items.RemoveAt(listBox.SelectedIndex);
+            UpdateStatus($"Removed {categoryLabel} Item {removed}");
+            UpdateCount(listBox, countTextBox);
+        }
+
+        private void BuildSpeechText(StringBuilder sb, ListBox listBox, string categoryName)
+        {
+            if (listBox.Items.Count > 0)
+            {
+                sb.AppendFormat("You have {0} {1} {2} as follows. ",
+                    listBox.Items.Count,
+                    categoryName,
+                    listBox.Items.Count == 1 ? "item" : "items");
+                foreach (var item in listBox.Items)
+                    sb.Append(item).Append(". ");
+            }
+            else
+            {
+                sb.AppendFormat("There are no items in the {0} list.", categoryName.ToLower());
+            }
+        }
+
+        #endregion
+
         #region DELETE BUTTONS
-        private void BreakfastDeleteBTN_Click(object sender, System.EventArgs e)
+
+        private void BreakfastDeleteBTN_Click(object sender, EventArgs e)
         {
-            if (BreakfastListLB.SelectedIndex > -1)  //if an item is selected
-            {   //remove item from list
-                StatusTB.Text = "Removed Breakfast Item " + BreakfastListLB.SelectedItem;
-                BreakfastListLB.Items.RemoveAt(BreakfastListLB.SelectedIndex);
-                //Update item count
-                BreakfastItemCountTB.Text = BreakfastListLB.Items.Count + " Items";
-            }
+            DeleteSelectedItem(BreakfastListLB, BreakfastItemCountTB, "Breakfast");
         }
 
-        private void LunchDeleteBTN_Click(object sender, System.EventArgs e)
+        private void LunchDeleteBTN_Click(object sender, EventArgs e)
         {
-            if (LunchListLB.SelectedIndex > -1)  //if am item is selected
-            {
-                StatusTB.Text = "Removed lunch Item " + LunchListLB.SelectedItem;
-                LunchListLB.Items.RemoveAt(LunchListLB.SelectedIndex);
-               LunchItemCountTB.Text = LunchListLB.Items.Count + " Items";
-            }
+            DeleteSelectedItem(LunchListLB, LunchItemCountTB, "Lunch");
         }
 
-        private void DinnerDeleteBTN_Click(object sender, System.EventArgs e)
+        private void DinnerDeleteBTN_Click(object sender, EventArgs e)
         {
-            if (DinnerListLB.SelectedIndex > -1)  //if am item is selected
-            {
-                StatusTB.Text = "Removed dinner Item " + DinnerListLB.SelectedItem;
-                DinnerListLB.Items.RemoveAt(DinnerListLB.SelectedIndex);
-                DinnerItemCountTB.Text = DinnerListLB.Items.Count + " Items";
-            }
+            DeleteSelectedItem(DinnerListLB, DinnerItemCountTB, "Dinner");
         }
 
-        private void ExtrasDeleteBTN_Click(object sender, System.EventArgs e)
+        private void ExtrasDeleteBTN_Click(object sender, EventArgs e)
         {
-            if (ExtrasListLB.SelectedIndex > -1)  //if am item is selected
-            {
-                StatusTB.Text = "Removed extras Item " + ExtrasListLB.SelectedItem;
-                ExtrasListLB.Items.RemoveAt(ExtrasListLB.SelectedIndex);
-                ExtrasItemCountTB.Text = ExtrasListLB.Items.Count + " Items";
-            }
+            DeleteSelectedItem(ExtrasListLB, ExtrasItemCountTB, "Extras");
         }
+
         #endregion
 
         #region KEYDOWN EVENTS
+
         private void BreakfastEntryTB_KeyDown(object sender, KeyEventArgs e)
         {
-            //if enter is hit while in BreakfastEntryTB
             if (e.KeyCode == Keys.Enter)
             {
-                //if breakfastEntryTB has length >=2 add item to listbox
-                if (BreakfastEntryTB.Text.Length > 2)
-                {
-                    //add item in textbox to list
-                    BreakfastListLB.Items.Add(BreakfastEntryTB.Text);
-                    StatusTB.Text = "Added breakfast Item " + BreakfastEntryTB.Text;
-                    BreakfastEntryTB.Clear();  //clear textbox
-                    BreakfastEntryTB.Focus();  //return to input box
-                    BreakfastItemCountTB.Text = BreakfastListLB.Items.Count + " Items";
-                }
-                e.Handled = true;  //prevents ding when hitting enter
+                AddItemFromEntry(BreakfastEntryTB, BreakfastListLB, BreakfastItemCountTB, "Breakfast");
+                e.Handled = true;
                 e.SuppressKeyPress = true;
-
             }
         }
 
@@ -81,15 +129,7 @@ namespace _4_Column_Shopping_List
         {
             if (e.KeyCode == Keys.Enter)
             {
-                //if lunchentrytb has length >=2 add item to listbox
-                if (LunchEntryTB.Text.Length > 2)
-                {
-                    LunchListLB.Items.Add(LunchEntryTB.Text);
-                    StatusTB.Text = "Added lunch Item " + LunchEntryTB.Text;
-                    LunchEntryTB.Clear();  //clear textbox
-                    LunchEntryTB.Focus();  //return to input box
-                    LunchItemCountTB.Text = LunchListLB.Items.Count + " Items";
-                }
+                AddItemFromEntry(LunchEntryTB, LunchListLB, LunchItemCountTB, "Lunch");
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
@@ -99,16 +139,7 @@ namespace _4_Column_Shopping_List
         {
             if (e.KeyCode == Keys.Enter)
             {
-                //if Dinnerentrytb has length >=2 add item to listbox
-                if (DinnerEntryTB.Text.Length > 2)
-                {
-                    //put contents of textbox into listbox
-                    DinnerListLB.Items.Add(DinnerEntryTB.Text);
-                    StatusTB.Text = "Added dinner Item " + DinnerEntryTB.Text;
-                    DinnerEntryTB.Clear();  //clear textbox
-                    DinnerEntryTB.Focus();  //return to input box
-                    DinnerItemCountTB.Text = DinnerListLB.Items.Count + " Items";
-                }
+                AddItemFromEntry(DinnerEntryTB, DinnerListLB, DinnerItemCountTB, "Dinner");
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
@@ -118,125 +149,121 @@ namespace _4_Column_Shopping_List
         {
             if (e.KeyCode == Keys.Enter)
             {
-                //if Extrasentrytb has length >=2 add item to listbox
-                if (ExtrasEntryTB.Text.Length > 2)
-                {
-                    //put contents of textbox into listbox
-                    ExtrasListLB.Items.Add(ExtrasEntryTB.Text);
-                    StatusTB.Text = "Added extras Item " + ExtrasEntryTB.Text;
-                    ExtrasEntryTB.Clear();  //clear textbox
-                    ExtrasEntryTB.Focus();  //return to input box
-                    ExtrasItemCountTB.Text = ExtrasListLB.Items.Count + " Items";
-                }
+                AddItemFromEntry(ExtrasEntryTB, ExtrasListLB, ExtrasItemCountTB, "Extras");
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
         }
-        #endregion 
 
-        private void SpeakListBTN_Click(object sender, System.EventArgs e)
+        #endregion
+
+        private void SpeakListBTN_Click(object sender, EventArgs e)
         {
-            //start speech synthesizer, speak selected list from SpeakListCB
-            speechSynthesizerObj = new SpeechSynthesizer();
-            switch (SpeakListCB.SelectedIndex)
+            if (SpeakListCB.SelectedIndex < 0)
+                return;
+
+            // Build a single speech string for the selected category to avoid overlapping SpeakAsync calls.
+            var sb = new StringBuilder();
+            var category = (ListCategory)SpeakListCB.SelectedIndex;
+
+            switch (category)
             {
-                case 0:  //breakfast
-                    //if breakfast listbox has items
-                    if (BreakfastListLB.Items.Count > 0)
-                    {
-                        speechSynthesizerObj.Speak("You have " + BreakfastListLB.Items.Count + " Breakfast items as follows");
-
-                        for (int i = 0; i < BreakfastListLB.Items.Count; i++) //loop througn lb items
-                        {   //loop through listbox items and speak them.
-                            speechSynthesizerObj.Speak(BreakfastListLB.Items[i].ToString());
-                        }
-                    }
-                    else  //empty listbox
-                        speechSynthesizerObj.Speak("There are No items in the breakfast list");
+                case ListCategory.Breakfast:
+                    BuildSpeechText(sb, BreakfastListLB, "Breakfast");
                     break;
-                case 1:   //lunch
-                    if (LunchListLB.Items.Count > 0)
-                    {
-                        speechSynthesizerObj.Speak("You have " + LunchListLB.Items.Count + " Lunch items as follows:");
 
-                        for (int i = 0; i < LunchListLB.Items.Count; i++)
-                        {
-                            speechSynthesizerObj.Speak(LunchListLB.Items[i].ToString());
-                        }
-                    }
-                    else
-                        speechSynthesizerObj.Speak("There are No items in the lunch list");
+                case ListCategory.Lunch:
+                    BuildSpeechText(sb, LunchListLB, "Lunch");
                     break;
-                case 2:  //dinner
-                    if (DinnerListLB.Items.Count > 0)
-                    {
-                        speechSynthesizerObj.Speak("You have " + DinnerListLB.Items.Count + " Dinner items as follows:");
 
-                        for (int i = 0; i < DinnerListLB.Items.Count; i++)
-                        {
-                            speechSynthesizerObj.Speak(DinnerListLB.Items[i].ToString());
-                        }
-                    }
-                    else
-                        speechSynthesizerObj.Speak("There are no items in the dinner list");
+                case ListCategory.Dinner:
+                    BuildSpeechText(sb, DinnerListLB, "Dinner");
                     break;
-                case 3:  //extras
-                    if (ExtrasListLB.Items.Count > 0)
-                    {
-                        speechSynthesizerObj.Speak("You have " + ExtrasListLB.Items.Count + " Extras items as follows:");
 
-                        for (int i = 0; i < ExtrasListLB.Items.Count; i++)
-                        {
-                            speechSynthesizerObj.Speak(ExtrasListLB.Items[i].ToString());
-                        }
-                    }
-                    else
-                        speechSynthesizerObj.Speak("There are no items in the Extras list");
+                case ListCategory.Extras:
+                    BuildSpeechText(sb, ExtrasListLB, "Extras");
                     break;
+            }
+
+            var speechText = sb.ToString();
+            try
+            {
+                // Use SpeakAsync so the UI remains responsive.
+                speechSynthesizer.SpeakAsyncCancelAll();
+                speechSynthesizer.SpeakAsync(speechText);
+            }
+            catch (Exception ex)
+            {
+                // Keep UI-friendly handling for unexpected TTS errors.
+                MessageBox.Show(this, $"Unable to speak the list: {ex.Message}", "Speech Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
-        private void SaveListBTN_Click(object sender, System.EventArgs e)
-        {   
-            //use the savefile dialog to gat a file name to save to.
-            ListSave.ShowDialog();
-
-            //start saving items to selected file
-            //for each category, it prints the list name, and items
-            System.IO.StreamWriter SaveFile = new System.IO.StreamWriter(ListSave.FileName);
-            StatusTB.Text = "List saved to " + ListSave.FileName;
-            
-            SaveFile.WriteLine("BREAKFAST");
-            foreach (var item in BreakfastListLB.Items)
-{
-                SaveFile.WriteLine("    " + item.ToString());  //write items indented
-            }
-
-            SaveFile.WriteLine("LUNCH");
-            foreach (var item in LunchListLB.Items)
+        private void SaveListBTN_Click(object sender, EventArgs e)
+        {
+            try
             {
-                SaveFile.WriteLine("    " + item.ToString());
-            }
+                using (var writer = new StreamWriter(SelectedFile, false, Encoding.UTF8))
+                {
+                    writer.WriteLine("4-COLUMN SHOPPING LIST");
+                    writer.WriteLine(DateTime.Now.ToLongDateString());
+                    writer.WriteLine();
+                    writer.WriteLine("BREAKFAST - " + BreakfastItemCountTB.Text);
+                    foreach (var item in BreakfastListLB.Items)
+                        writer.WriteLine("    " + item);
+                    writer.WriteLine();
 
-            SaveFile.WriteLine("DINNER");
-            foreach (var item in DinnerListLB.Items)
-            {
-                SaveFile.WriteLine("    " + item.ToString());
-            }
+                    writer.WriteLine("LUNCH - " + LunchItemCountTB.Text);
+                    foreach (var item in LunchListLB.Items)
+                        writer.WriteLine("    " + item);
+                    writer.WriteLine();
 
-            SaveFile.WriteLine("EXTRAS");
-            foreach (var item in ExtrasListLB.Items)
-            {
-                SaveFile.WriteLine("    " + item.ToString());
+                    writer.WriteLine("DINNER - " + DinnerItemCountTB.Text);
+                    foreach (var item in DinnerListLB.Items)
+                        writer.WriteLine("    " + item);
+                    writer.WriteLine();
+
+                    writer.WriteLine("EXTRAS - " + ExtrasItemCountTB.Text);
+                    foreach (var item in ExtrasListLB.Items)
+                        writer.WriteLine("    " + item);
+                    writer.WriteLine();
+                }
+
+                UpdateStatus("List saved to Documents Folder");
             }
-            SaveFile.Close();  //close file, we're all done
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, $"Failed to save file: {ex.Message}", "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UpdateStatus("Save failed.");
+            }
         }
 
-        private void Form1_Load(object sender, System.EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
             //set combobox to first item so it's not blank on top
             SpeakListCB.SelectedIndex = 0;
             StatusTB.Text = "Hello!  Type in list items then hit enter.";
+
+            // initialize counts on load (in case designer set items)
+            UpdateCount(BreakfastListLB, BreakfastItemCountTB);
+            UpdateCount(LunchListLB, LunchItemCountTB);
+            UpdateCount(DinnerListLB, DinnerItemCountTB);
+            UpdateCount(ExtrasListLB, ExtrasItemCountTB);
+        }
+
+        // Ensure synthesizer is disposed when form closes.
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            try
+            {
+                speechSynthesizer?.SpeakAsyncCancelAll();
+                speechSynthesizer?.Dispose();
+            }
+            catch
+            {
+                // swallow disposal exceptions to avoid blocking shutdown
+            }
         }
     }
 }

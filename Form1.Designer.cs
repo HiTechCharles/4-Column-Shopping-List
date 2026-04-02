@@ -1,5 +1,4 @@
-﻿
-namespace _4_Column_Shopping_List
+﻿namespace _4_Column_Shopping_List
 {
     partial class Form1
     {
@@ -47,7 +46,6 @@ namespace _4_Column_Shopping_List
             this.ExtrasItemCountTB = new System.Windows.Forms.TextBox();
             this.ExtrasListLB = new System.Windows.Forms.ListBox();
             this.ExtrasEntryTB = new System.Windows.Forms.TextBox();
-            this.ListSave = new System.Windows.Forms.SaveFileDialog();
             this.SaveListBTN = new System.Windows.Forms.Button();
             this.LunchLBL = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -61,9 +59,9 @@ namespace _4_Column_Shopping_List
             this.BreakfastEntryTB.AccessibleDescription = "Breakfast - Type new item then press enter";
             this.BreakfastEntryTB.AccessibleName = "Breakfast - Type new item then press enter";
             this.BreakfastEntryTB.CausesValidation = false;
-            this.BreakfastEntryTB.Location = new System.Drawing.Point(0, 56);
+            this.BreakfastEntryTB.Location = new System.Drawing.Point(5, 49);
             this.BreakfastEntryTB.Name = "BreakfastEntryTB";
-            this.BreakfastEntryTB.Size = new System.Drawing.Size(357, 40);
+            this.BreakfastEntryTB.Size = new System.Drawing.Size(315, 36);
             this.BreakfastEntryTB.TabIndex = 1;
             this.BreakfastEntryTB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.BreakfastEntryTB_KeyDown);
             // 
@@ -74,10 +72,10 @@ namespace _4_Column_Shopping_List
             this.BreakfastListLB.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.BreakfastListLB.CausesValidation = false;
             this.BreakfastListLB.FormattingEnabled = true;
-            this.BreakfastListLB.ItemHeight = 33;
-            this.BreakfastListLB.Location = new System.Drawing.Point(0, 101);
+            this.BreakfastListLB.ItemHeight = 29;
+            this.BreakfastListLB.Location = new System.Drawing.Point(5, 89);
             this.BreakfastListLB.Name = "BreakfastListLB";
-            this.BreakfastListLB.Size = new System.Drawing.Size(357, 466);
+            this.BreakfastListLB.Size = new System.Drawing.Size(315, 381);
             this.BreakfastListLB.Sorted = true;
             this.BreakfastListLB.TabIndex = 2;
             // 
@@ -86,10 +84,10 @@ namespace _4_Column_Shopping_List
             this.BreakfastItemCountTB.AccessibleDescription = "Breakfast Item Count";
             this.BreakfastItemCountTB.AccessibleName = "Breakfast Item Count";
             this.BreakfastItemCountTB.CausesValidation = false;
-            this.BreakfastItemCountTB.Location = new System.Drawing.Point(0, 573);
+            this.BreakfastItemCountTB.Location = new System.Drawing.Point(5, 504);
             this.BreakfastItemCountTB.Name = "BreakfastItemCountTB";
             this.BreakfastItemCountTB.ReadOnly = true;
-            this.BreakfastItemCountTB.Size = new System.Drawing.Size(178, 40);
+            this.BreakfastItemCountTB.Size = new System.Drawing.Size(158, 36);
             this.BreakfastItemCountTB.TabIndex = 3;
             this.BreakfastItemCountTB.Text = "No Items";
             this.BreakfastItemCountTB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -100,9 +98,9 @@ namespace _4_Column_Shopping_List
             this.BreakfastDeleteBTN.AccessibleName = "Breakfast - Delete selected item";
             this.BreakfastDeleteBTN.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.BreakfastDeleteBTN.CausesValidation = false;
-            this.BreakfastDeleteBTN.Location = new System.Drawing.Point(179, 572);
+            this.BreakfastDeleteBTN.Location = new System.Drawing.Point(162, 503);
             this.BreakfastDeleteBTN.Name = "BreakfastDeleteBTN";
-            this.BreakfastDeleteBTN.Size = new System.Drawing.Size(178, 41);
+            this.BreakfastDeleteBTN.Size = new System.Drawing.Size(158, 36);
             this.BreakfastDeleteBTN.TabIndex = 4;
             this.BreakfastDeleteBTN.Text = "Delete";
             this.BreakfastDeleteBTN.UseVisualStyleBackColor = true;
@@ -114,9 +112,9 @@ namespace _4_Column_Shopping_List
             this.LunchDeleteBTN.AccessibleName = "Lunch - Delete Selected Item";
             this.LunchDeleteBTN.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.LunchDeleteBTN.CausesValidation = false;
-            this.LunchDeleteBTN.Location = new System.Drawing.Point(547, 573);
+            this.LunchDeleteBTN.Location = new System.Drawing.Point(483, 504);
             this.LunchDeleteBTN.Name = "LunchDeleteBTN";
-            this.LunchDeleteBTN.Size = new System.Drawing.Size(173, 41);
+            this.LunchDeleteBTN.Size = new System.Drawing.Size(158, 36);
             this.LunchDeleteBTN.TabIndex = 8;
             this.LunchDeleteBTN.Text = "Delete";
             this.LunchDeleteBTN.UseVisualStyleBackColor = true;
@@ -127,10 +125,10 @@ namespace _4_Column_Shopping_List
             this.LunchItemCountTB.AccessibleDescription = "Lunch Item Count";
             this.LunchItemCountTB.AccessibleName = "Lunch Item Count";
             this.LunchItemCountTB.CausesValidation = false;
-            this.LunchItemCountTB.Location = new System.Drawing.Point(363, 573);
+            this.LunchItemCountTB.Location = new System.Drawing.Point(326, 504);
             this.LunchItemCountTB.Name = "LunchItemCountTB";
             this.LunchItemCountTB.ReadOnly = true;
-            this.LunchItemCountTB.Size = new System.Drawing.Size(178, 40);
+            this.LunchItemCountTB.Size = new System.Drawing.Size(158, 36);
             this.LunchItemCountTB.TabIndex = 7;
             this.LunchItemCountTB.Text = "No Items";
             this.LunchItemCountTB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -141,10 +139,10 @@ namespace _4_Column_Shopping_List
             this.LunchListLB.AccessibleName = "Lunch - List of Items";
             this.LunchListLB.CausesValidation = false;
             this.LunchListLB.FormattingEnabled = true;
-            this.LunchListLB.ItemHeight = 33;
-            this.LunchListLB.Location = new System.Drawing.Point(363, 101);
+            this.LunchListLB.ItemHeight = 29;
+            this.LunchListLB.Location = new System.Drawing.Point(326, 89);
             this.LunchListLB.Name = "LunchListLB";
-            this.LunchListLB.Size = new System.Drawing.Size(357, 466);
+            this.LunchListLB.Size = new System.Drawing.Size(315, 381);
             this.LunchListLB.Sorted = true;
             this.LunchListLB.TabIndex = 6;
             // 
@@ -153,9 +151,9 @@ namespace _4_Column_Shopping_List
             this.LunchEntryTB.AccessibleDescription = "Lunch - Type new item then press enter";
             this.LunchEntryTB.AccessibleName = "Lunch - Type new item then press enter";
             this.LunchEntryTB.CausesValidation = false;
-            this.LunchEntryTB.Location = new System.Drawing.Point(363, 55);
+            this.LunchEntryTB.Location = new System.Drawing.Point(326, 48);
             this.LunchEntryTB.Name = "LunchEntryTB";
-            this.LunchEntryTB.Size = new System.Drawing.Size(357, 40);
+            this.LunchEntryTB.Size = new System.Drawing.Size(315, 36);
             this.LunchEntryTB.TabIndex = 5;
             this.LunchEntryTB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LunchEntryTB_KeyDown);
             // 
@@ -165,9 +163,9 @@ namespace _4_Column_Shopping_List
             this.DinnerDeleteBTN.AccessibleName = "Dinner - Delete Selected Item";
             this.DinnerDeleteBTN.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.DinnerDeleteBTN.CausesValidation = false;
-            this.DinnerDeleteBTN.Location = new System.Drawing.Point(910, 573);
+            this.DinnerDeleteBTN.Location = new System.Drawing.Point(803, 504);
             this.DinnerDeleteBTN.Name = "DinnerDeleteBTN";
-            this.DinnerDeleteBTN.Size = new System.Drawing.Size(173, 41);
+            this.DinnerDeleteBTN.Size = new System.Drawing.Size(158, 36);
             this.DinnerDeleteBTN.TabIndex = 12;
             this.DinnerDeleteBTN.Text = "Delete";
             this.DinnerDeleteBTN.UseVisualStyleBackColor = true;
@@ -178,10 +176,10 @@ namespace _4_Column_Shopping_List
             this.DinnerItemCountTB.AccessibleDescription = "Dinner Item Count";
             this.DinnerItemCountTB.AccessibleName = "Dinner Item Count";
             this.DinnerItemCountTB.CausesValidation = false;
-            this.DinnerItemCountTB.Location = new System.Drawing.Point(726, 573);
+            this.DinnerItemCountTB.Location = new System.Drawing.Point(646, 504);
             this.DinnerItemCountTB.Name = "DinnerItemCountTB";
             this.DinnerItemCountTB.ReadOnly = true;
-            this.DinnerItemCountTB.Size = new System.Drawing.Size(178, 40);
+            this.DinnerItemCountTB.Size = new System.Drawing.Size(158, 36);
             this.DinnerItemCountTB.TabIndex = 11;
             this.DinnerItemCountTB.Text = "No Items";
             this.DinnerItemCountTB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -192,10 +190,10 @@ namespace _4_Column_Shopping_List
             this.DinnerListLB.AccessibleName = "Dinner - List of Items";
             this.DinnerListLB.CausesValidation = false;
             this.DinnerListLB.FormattingEnabled = true;
-            this.DinnerListLB.ItemHeight = 33;
-            this.DinnerListLB.Location = new System.Drawing.Point(726, 101);
+            this.DinnerListLB.ItemHeight = 29;
+            this.DinnerListLB.Location = new System.Drawing.Point(646, 89);
             this.DinnerListLB.Name = "DinnerListLB";
-            this.DinnerListLB.Size = new System.Drawing.Size(357, 466);
+            this.DinnerListLB.Size = new System.Drawing.Size(315, 381);
             this.DinnerListLB.Sorted = true;
             this.DinnerListLB.TabIndex = 10;
             // 
@@ -204,9 +202,9 @@ namespace _4_Column_Shopping_List
             this.DinnerEntryTB.AccessibleDescription = "Dinner - Type new item then press Enter";
             this.DinnerEntryTB.AccessibleName = "Dinner - Type new item then press Enter";
             this.DinnerEntryTB.CausesValidation = false;
-            this.DinnerEntryTB.Location = new System.Drawing.Point(726, 55);
+            this.DinnerEntryTB.Location = new System.Drawing.Point(646, 48);
             this.DinnerEntryTB.Name = "DinnerEntryTB";
-            this.DinnerEntryTB.Size = new System.Drawing.Size(357, 40);
+            this.DinnerEntryTB.Size = new System.Drawing.Size(315, 36);
             this.DinnerEntryTB.TabIndex = 9;
             this.DinnerEntryTB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DinnerEntryTB_KeyDown);
             // 
@@ -221,9 +219,9 @@ namespace _4_Column_Shopping_List
             "Lunch",
             "Dinner",
             "Extras"});
-            this.SpeakListCB.Location = new System.Drawing.Point(12, 631);
+            this.SpeakListCB.Location = new System.Drawing.Point(5, 555);
             this.SpeakListCB.Name = "SpeakListCB";
-            this.SpeakListCB.Size = new System.Drawing.Size(178, 41);
+            this.SpeakListCB.Size = new System.Drawing.Size(158, 37);
             this.SpeakListCB.TabIndex = 17;
             // 
             // SpeakListBTN
@@ -231,9 +229,9 @@ namespace _4_Column_Shopping_List
             this.SpeakListBTN.AccessibleDescription = "Speaks the selected list";
             this.SpeakListBTN.AccessibleName = "Speaks the selected list";
             this.SpeakListBTN.CausesValidation = false;
-            this.SpeakListBTN.Location = new System.Drawing.Point(196, 632);
+            this.SpeakListBTN.Location = new System.Drawing.Point(168, 555);
             this.SpeakListBTN.Name = "SpeakListBTN";
-            this.SpeakListBTN.Size = new System.Drawing.Size(178, 40);
+            this.SpeakListBTN.Size = new System.Drawing.Size(157, 35);
             this.SpeakListBTN.TabIndex = 18;
             this.SpeakListBTN.Text = "Speak List";
             this.SpeakListBTN.UseVisualStyleBackColor = true;
@@ -244,9 +242,9 @@ namespace _4_Column_Shopping_List
             this.ExtrasDeleteBTN.AccessibleDescription = "Extras - Delete Selected Item";
             this.ExtrasDeleteBTN.AccessibleName = "Extras - Delete Selected Item";
             this.ExtrasDeleteBTN.CausesValidation = false;
-            this.ExtrasDeleteBTN.Location = new System.Drawing.Point(1273, 572);
+            this.ExtrasDeleteBTN.Location = new System.Drawing.Point(1123, 503);
             this.ExtrasDeleteBTN.Name = "ExtrasDeleteBTN";
-            this.ExtrasDeleteBTN.Size = new System.Drawing.Size(173, 41);
+            this.ExtrasDeleteBTN.Size = new System.Drawing.Size(158, 36);
             this.ExtrasDeleteBTN.TabIndex = 16;
             this.ExtrasDeleteBTN.Text = "Delete";
             this.ExtrasDeleteBTN.UseVisualStyleBackColor = true;
@@ -257,10 +255,10 @@ namespace _4_Column_Shopping_List
             this.ExtrasItemCountTB.AccessibleDescription = "Extras Item Count";
             this.ExtrasItemCountTB.AccessibleName = "Extras Item Count";
             this.ExtrasItemCountTB.CausesValidation = false;
-            this.ExtrasItemCountTB.Location = new System.Drawing.Point(1089, 573);
+            this.ExtrasItemCountTB.Location = new System.Drawing.Point(966, 504);
             this.ExtrasItemCountTB.Name = "ExtrasItemCountTB";
             this.ExtrasItemCountTB.ReadOnly = true;
-            this.ExtrasItemCountTB.Size = new System.Drawing.Size(178, 40);
+            this.ExtrasItemCountTB.Size = new System.Drawing.Size(158, 36);
             this.ExtrasItemCountTB.TabIndex = 15;
             this.ExtrasItemCountTB.Text = "No Items";
             this.ExtrasItemCountTB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -271,10 +269,10 @@ namespace _4_Column_Shopping_List
             this.ExtrasListLB.AccessibleName = "Extras - List of Items";
             this.ExtrasListLB.CausesValidation = false;
             this.ExtrasListLB.FormattingEnabled = true;
-            this.ExtrasListLB.ItemHeight = 33;
-            this.ExtrasListLB.Location = new System.Drawing.Point(1089, 101);
+            this.ExtrasListLB.ItemHeight = 29;
+            this.ExtrasListLB.Location = new System.Drawing.Point(966, 89);
             this.ExtrasListLB.Name = "ExtrasListLB";
-            this.ExtrasListLB.Size = new System.Drawing.Size(357, 466);
+            this.ExtrasListLB.Size = new System.Drawing.Size(315, 381);
             this.ExtrasListLB.Sorted = true;
             this.ExtrasListLB.TabIndex = 14;
             // 
@@ -283,25 +281,20 @@ namespace _4_Column_Shopping_List
             this.ExtrasEntryTB.AccessibleDescription = "Extras - Type new item then press Enter";
             this.ExtrasEntryTB.AccessibleName = "Extras - Type new item then press Enter";
             this.ExtrasEntryTB.CausesValidation = false;
-            this.ExtrasEntryTB.Location = new System.Drawing.Point(1089, 55);
+            this.ExtrasEntryTB.Location = new System.Drawing.Point(966, 48);
             this.ExtrasEntryTB.Name = "ExtrasEntryTB";
-            this.ExtrasEntryTB.Size = new System.Drawing.Size(357, 40);
+            this.ExtrasEntryTB.Size = new System.Drawing.Size(315, 36);
             this.ExtrasEntryTB.TabIndex = 13;
             this.ExtrasEntryTB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ExtrasEntryTB_KeyDown);
-            // 
-            // ListSave
-            // 
-            this.ListSave.DefaultExt = "txt";
-            this.ListSave.Title = "Save Shopping  List";
             // 
             // SaveListBTN
             // 
             this.SaveListBTN.AccessibleDescription = "Saves the list to a text file";
             this.SaveListBTN.AccessibleName = "Saves the list to a text file";
             this.SaveListBTN.CausesValidation = false;
-            this.SaveListBTN.Location = new System.Drawing.Point(380, 632);
+            this.SaveListBTN.Location = new System.Drawing.Point(326, 555);
             this.SaveListBTN.Name = "SaveListBTN";
-            this.SaveListBTN.Size = new System.Drawing.Size(188, 40);
+            this.SaveListBTN.Size = new System.Drawing.Size(166, 35);
             this.SaveListBTN.TabIndex = 19;
             this.SaveListBTN.Text = "Save List";
             this.SaveListBTN.UseVisualStyleBackColor = true;
@@ -311,9 +304,9 @@ namespace _4_Column_Shopping_List
             // 
             this.LunchLBL.AutoSize = true;
             this.LunchLBL.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.LunchLBL.Location = new System.Drawing.Point(357, 9);
+            this.LunchLBL.Location = new System.Drawing.Point(326, 8);
             this.LunchLBL.Name = "LunchLBL";
-            this.LunchLBL.Size = new System.Drawing.Size(110, 33);
+            this.LunchLBL.Size = new System.Drawing.Size(98, 29);
             this.LunchLBL.TabIndex = 20;
             this.LunchLBL.Text = "LUNCH";
             // 
@@ -321,9 +314,9 @@ namespace _4_Column_Shopping_List
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(11, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(176, 33);
+            this.label1.Size = new System.Drawing.Size(154, 29);
             this.label1.TabIndex = 23;
             this.label1.Text = "BREAKFAST";
             // 
@@ -331,9 +324,9 @@ namespace _4_Column_Shopping_List
             // 
             this.j.AutoSize = true;
             this.j.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.j.Location = new System.Drawing.Point(720, 9);
+            this.j.Location = new System.Drawing.Point(646, 8);
             this.j.Name = "j";
-            this.j.Size = new System.Drawing.Size(127, 33);
+            this.j.Size = new System.Drawing.Size(113, 29);
             this.j.TabIndex = 24;
             this.j.Text = "DINNER";
             // 
@@ -341,9 +334,9 @@ namespace _4_Column_Shopping_List
             // 
             this.ExtrasLBL.AutoSize = true;
             this.ExtrasLBL.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ExtrasLBL.Location = new System.Drawing.Point(1083, 9);
+            this.ExtrasLBL.Location = new System.Drawing.Point(966, 8);
             this.ExtrasLBL.Name = "ExtrasLBL";
-            this.ExtrasLBL.Size = new System.Drawing.Size(122, 33);
+            this.ExtrasLBL.Size = new System.Drawing.Size(107, 29);
             this.ExtrasLBL.TabIndex = 25;
             this.ExtrasLBL.Text = "EXTRAS";
             // 
@@ -352,19 +345,19 @@ namespace _4_Column_Shopping_List
             this.StatusTB.AccessibleDescription = "Status Bar ";
             this.StatusTB.AccessibleName = "Status Bar ";
             this.StatusTB.CausesValidation = false;
-            this.StatusTB.Location = new System.Drawing.Point(574, 632);
+            this.StatusTB.Location = new System.Drawing.Point(506, 555);
             this.StatusTB.Name = "StatusTB";
             this.StatusTB.ReadOnly = true;
-            this.StatusTB.Size = new System.Drawing.Size(872, 40);
+            this.StatusTB.Size = new System.Drawing.Size(770, 36);
             this.StatusTB.TabIndex = 26;
             this.StatusTB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(17F, 33F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(1453, 687);
+            this.ClientSize = new System.Drawing.Size(1282, 604);
             this.Controls.Add(this.StatusTB);
             this.Controls.Add(this.ExtrasLBL);
             this.Controls.Add(this.j);
@@ -389,16 +382,16 @@ namespace _4_Column_Shopping_List
             this.Controls.Add(this.BreakfastItemCountTB);
             this.Controls.Add(this.BreakfastListLB);
             this.Controls.Add(this.BreakfastEntryTB);
-            this.Font = new System.Drawing.Font("Tahoma", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Tahoma", 18F, System.Drawing.FontStyle.Bold);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "j";
+            this.Text = "4-Column Shopping List";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -425,7 +418,6 @@ namespace _4_Column_Shopping_List
         private System.Windows.Forms.TextBox ExtrasItemCountTB;
         private System.Windows.Forms.ListBox ExtrasListLB;
         private System.Windows.Forms.TextBox ExtrasEntryTB;
-        private System.Windows.Forms.SaveFileDialog ListSave;
         private System.Windows.Forms.Button SaveListBTN;
         private System.Windows.Forms.Label LunchLBL;
         private System.Windows.Forms.Label label1;
