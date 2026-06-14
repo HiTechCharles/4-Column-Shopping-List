@@ -218,7 +218,8 @@
             "Breakfast",
             "Lunch",
             "Dinner",
-            "Extras"});
+            "Extras",
+            "Entire List"});
             this.SpeakListCB.Location = new System.Drawing.Point(5, 555);
             this.SpeakListCB.Name = "SpeakListCB";
             this.SpeakListCB.Size = new System.Drawing.Size(158, 37);

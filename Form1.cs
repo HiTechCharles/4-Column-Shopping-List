@@ -13,7 +13,8 @@ namespace _4_Column_Shopping_List
             Breakfast = 0,
             Lunch = 1,
             Dinner = 2,
-            Extras = 3
+            Extras = 3,
+            EntireList = 4
         }
 
         private SpeechSynthesizer speechSynthesizer;
@@ -181,6 +182,12 @@ namespace _4_Column_Shopping_List
                     break;
 
                 case ListCategory.Extras:
+                    BuildSpeechText(sb, ExtrasListLB, "Extras");
+                    break;
+                case ListCategory.EntireList:
+                    BuildSpeechText(sb, BreakfastListLB, "Breakfast");
+                    BuildSpeechText(sb, LunchListLB, "Lunch");
+                    BuildSpeechText(sb, DinnerListLB, "Dinner");
                     BuildSpeechText(sb, ExtrasListLB, "Extras");
                     break;
             }
