@@ -8,7 +8,7 @@ namespace _4_Column_Shopping_List
 {
     public partial class Form1 : Form
     {
-        private enum ListCategory
+            private enum ListCategory
         {
             Breakfast = 0,
             Lunch = 1,
@@ -17,12 +17,14 @@ namespace _4_Column_Shopping_List
             EntireList = 4
         }
 
+
         private SpeechSynthesizer speechSynthesizer;
         public static string AppDirectory = Path.Combine(
             Environment.GetEnvironmentVariable("onedriveconsumer") ?? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             "documents", "4-Column Shopping List");  //application directory
         public static string SelectedFile = Path.Combine(AppDirectory, "Shopping List.txt"); //output order list file
 
+        #region form1 loading and closingpublic Form1()
         public Form1()
         {
             InitializeComponent();
@@ -34,12 +36,32 @@ namespace _4_Column_Shopping_List
             speechSynthesizer.Volume = 100; // set max volume
         }
 
-        #region Helper Methods
-
-        private void UpdateStatus(string text)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            StatusTB.Text = text;
+            // initialize counts on load (in case designer set items)
+            UpdateCount(BreakfastListLB, BreakfastItemCountTB);
+            UpdateCount(LunchListLB, LunchItemCountTB);
+            UpdateCount(DinnerListLB, DinnerItemCountTB);
+            UpdateCount(ExtrasListLB, ExtrasItemCountTB);
         }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            try
+            {
+                speechSynthesizer?.SpeakAsyncCancelAll();
+                speechSynthesizer?.Dispose();
+                Save(); // Save the list on form closing
+            }
+            catch
+            {
+                // swallow disposal exceptions to avoid blocking shutdown
+            }
+        }
+        #endregion
+
+        #region Helper Methods
 
         private void UpdateCount(ListBox listBox, TextBox countTextBox)
         {
@@ -54,10 +76,10 @@ namespace _4_Column_Shopping_List
                 return;
 
             listBox.Items.Add(text);
-            UpdateStatus($"Added {categoryLabel} Item '{text}'");
             entry.Clear();
             entry.Focus();
             UpdateCount(listBox, countTextBox);
+            Save(); // Save the list after adding an item
         }
 
         private void DeleteSelectedItem(ListBox listBox, TextBox countTextBox, string categoryLabel)
@@ -67,8 +89,8 @@ namespace _4_Column_Shopping_List
 
             var removed = listBox.SelectedItem?.ToString();
             listBox.Items.RemoveAt(listBox.SelectedIndex);
-            UpdateStatus($"Removed {categoryLabel} Item {removed}");
             UpdateCount(listBox, countTextBox);
+            Save(); // Save the list after deleting an item
         }
 
         private void BuildSpeechText(StringBuilder sb, ListBox listBox, string categoryName)
@@ -84,34 +106,77 @@ namespace _4_Column_Shopping_List
             }
             else
             {
-                sb.AppendFormat("There are no items in the {0} list.", categoryName.ToLower());
+                sb.AppendFormat("There are no items in the {0} list.  ", categoryName.ToLower());
             }
         }
 
-        #endregion
-
-        #region DELETE BUTTONS
-
-        private void BreakfastDeleteBTN_Click(object sender, EventArgs e)
+        private void Save()
         {
-            DeleteSelectedItem(BreakfastListLB, BreakfastItemCountTB, "Breakfast");
+            try
+            {
+                using (var writer = new StreamWriter(SelectedFile, false, Encoding.UTF8))
+                {
+                    writer.WriteLine("4-COLUMN SHOPPING LIST");
+                    writer.WriteLine(DateTime.Now.ToLongDateString());
+                    writer.WriteLine();
+                    writer.WriteLine("BREAKFAST - " + BreakfastItemCountTB.Text);
+                    foreach (var item in BreakfastListLB.Items)
+                        writer.WriteLine("    " + item);
+                    writer.WriteLine();
+
+                    writer.WriteLine("LUNCH - " + LunchItemCountTB.Text);
+                    foreach (var item in LunchListLB.Items)
+                        writer.WriteLine("    " + item);
+                    writer.WriteLine();
+
+                    writer.WriteLine("DINNER - " + DinnerItemCountTB.Text);
+                    foreach (var item in DinnerListLB.Items)
+                        writer.WriteLine("    " + item);
+                    writer.WriteLine();
+
+                    writer.WriteLine("EXTRAS - " + ExtrasItemCountTB.Text);
+                    foreach (var item in ExtrasListLB.Items)
+                        writer.WriteLine("    " + item);
+                    writer.WriteLine();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, $"Failed to save file: {ex.Message}", "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void LunchDeleteBTN_Click(object sender, EventArgs e)
+        private void SpeakCategory(ListCategory category)
         {
-            DeleteSelectedItem(LunchListLB, LunchItemCountTB, "Lunch");
+            var sb = new StringBuilder();
+            switch (category)
+            {
+                case ListCategory.Breakfast:
+                    BuildSpeechText(sb, BreakfastListLB, "Breakfast");
+                    break;
+                case ListCategory.Lunch:
+                    BuildSpeechText(sb, LunchListLB, "Lunch");
+                    break;
+                case ListCategory.Dinner:
+                    BuildSpeechText(sb, DinnerListLB, "Dinner");
+                    break;
+                case ListCategory.Extras:
+                    BuildSpeechText(sb, ExtrasListLB, "Extras");
+                    break;
+                case ListCategory.EntireList:
+                    BuildSpeechText(sb, BreakfastListLB, "Breakfast");
+                    BuildSpeechText(sb, LunchListLB, "Lunch");
+                    BuildSpeechText(sb, DinnerListLB, "Dinner");
+                    BuildSpeechText(sb, ExtrasListLB, "Extras");
+                    break;
+            }
+            var speechText = sb.ToString();
+            if (!string.IsNullOrWhiteSpace(speechText))
+            {
+                speechSynthesizer.SpeakAsyncCancelAll(); // Cancel any ongoing speech
+                speechSynthesizer.SpeakAsync(speechText);
+            }
         }
-
-        private void DinnerDeleteBTN_Click(object sender, EventArgs e)
-        {
-            DeleteSelectedItem(DinnerListLB, DinnerItemCountTB, "Dinner");
-        }
-
-        private void ExtrasDeleteBTN_Click(object sender, EventArgs e)
-        {
-            DeleteSelectedItem(ExtrasListLB, ExtrasItemCountTB, "Extras");
-        }
-
         #endregion
 
         #region KEYDOWN EVENTS
@@ -158,119 +223,91 @@ namespace _4_Column_Shopping_List
 
         #endregion
 
-        private void SpeakListBTN_Click(object sender, EventArgs e)
+        #region Menu Item Click Handlers
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (SpeakListCB.SelectedIndex < 0)
-                return;
-
-            // Build a single speech string for the selected category to avoid overlapping SpeakAsync calls.
-            var sb = new StringBuilder();
-            var category = (ListCategory)SpeakListCB.SelectedIndex;
-
-            switch (category)
+            Application.Exit();
+        }
+        
+        private void deleteItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Determine which list box has focus and delete the selected item
+            if (BreakfastListLB.Focused)
             {
-                case ListCategory.Breakfast:
-                    BuildSpeechText(sb, BreakfastListLB, "Breakfast");
-                    break;
-
-                case ListCategory.Lunch:
-                    BuildSpeechText(sb, LunchListLB, "Lunch");
-                    break;
-
-                case ListCategory.Dinner:
-                    BuildSpeechText(sb, DinnerListLB, "Dinner");
-                    break;
-
-                case ListCategory.Extras:
-                    BuildSpeechText(sb, ExtrasListLB, "Extras");
-                    break;
-                case ListCategory.EntireList:
-                    BuildSpeechText(sb, BreakfastListLB, "Breakfast");
-                    BuildSpeechText(sb, LunchListLB, "Lunch");
-                    BuildSpeechText(sb, DinnerListLB, "Dinner");
-                    BuildSpeechText(sb, ExtrasListLB, "Extras");
-                    break;
+                DeleteSelectedItem(BreakfastListLB, BreakfastItemCountTB, "Breakfast");
             }
-
-            var speechText = sb.ToString();
-            try
+            else if (LunchListLB.Focused)
             {
-                // Use SpeakAsync so the UI remains responsive.
-                speechSynthesizer.SpeakAsyncCancelAll();
-                speechSynthesizer.SpeakAsync(speechText);
+                DeleteSelectedItem(LunchListLB, LunchItemCountTB, "Lunch");
             }
-            catch (Exception ex)
+            else if (DinnerListLB.Focused)
             {
-                // Keep UI-friendly handling for unexpected TTS errors.
-                MessageBox.Show(this, $"Unable to speak the list: {ex.Message}", "Speech Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                DeleteSelectedItem(DinnerListLB, DinnerItemCountTB, "Dinner");
+            }
+            else if (ExtrasListLB.Focused)
+            {
+                DeleteSelectedItem(ExtrasListLB, ExtrasItemCountTB, "Extras");
+            } else {
+                // Handle the case where no list box has focus
+                MessageBox.Show("Please select an item to delete.", "No Item Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
-        private void SaveListBTN_Click(object sender, EventArgs e)
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
+            var result = MessageBox.Show("Are you sure you want to create a new list? This will clear all current items.", "Confirm New List", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
             {
-                using (var writer = new StreamWriter(SelectedFile, false, Encoding.UTF8))
-                {
-                    writer.WriteLine("4-COLUMN SHOPPING LIST");
-                    writer.WriteLine(DateTime.Now.ToLongDateString());
-                    writer.WriteLine();
-                    writer.WriteLine("BREAKFAST - " + BreakfastItemCountTB.Text);
-                    foreach (var item in BreakfastListLB.Items)
-                        writer.WriteLine("    " + item);
-                    writer.WriteLine();
-
-                    writer.WriteLine("LUNCH - " + LunchItemCountTB.Text);
-                    foreach (var item in LunchListLB.Items)
-                        writer.WriteLine("    " + item);
-                    writer.WriteLine();
-
-                    writer.WriteLine("DINNER - " + DinnerItemCountTB.Text);
-                    foreach (var item in DinnerListLB.Items)
-                        writer.WriteLine("    " + item);
-                    writer.WriteLine();
-
-                    writer.WriteLine("EXTRAS - " + ExtrasItemCountTB.Text);
-                    foreach (var item in ExtrasListLB.Items)
-                        writer.WriteLine("    " + item);
-                    writer.WriteLine();
-                }
-
-                UpdateStatus("List saved to Documents Folder");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(this, $"Failed to save file: {ex.Message}", "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                UpdateStatus("Save failed.");
+                Save();
+                MessageBox.Show("The previous list has been saved.\r\n\r\nThe list is located in the Documents folder, which will be overwritten when you add the first item.", "New List", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                // Clear all list boxes and item counts
+                BreakfastListLB.Items.Clear();
+                LunchListLB.Items.Clear();
+                DinnerListLB.Items.Clear();
+                ExtrasListLB.Items.Clear();
+                UpdateCount(BreakfastListLB, BreakfastItemCountTB);
+                UpdateCount(LunchListLB, LunchItemCountTB);
+                UpdateCount(DinnerListLB, DinnerItemCountTB);
+                UpdateCount(ExtrasListLB, ExtrasItemCountTB);
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //set combobox to first item so it's not blank on top
-            SpeakListCB.SelectedIndex = 0;
-            StatusTB.Text = "Hello!  Type in list items then hit enter.";
-
-            // initialize counts on load (in case designer set items)
-            UpdateCount(BreakfastListLB, BreakfastItemCountTB);
-            UpdateCount(LunchListLB, LunchItemCountTB);
-            UpdateCount(DinnerListLB, DinnerItemCountTB);
-            UpdateCount(ExtrasListLB, ExtrasItemCountTB);
+            //future aboutbox implementation from ShadowFlame Class Library.
         }
 
-        // Ensure synthesizer is disposed when form closes.
-        protected override void OnFormClosing(FormClosingEventArgs e)
+        private void viewListFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            base.OnFormClosing(e);
-            try
-            {
-                speechSynthesizer?.SpeakAsyncCancelAll();
-                speechSynthesizer?.Dispose();
-            }
-            catch
-            {
-                // swallow disposal exceptions to avoid blocking shutdown
-            }
+            //future View Report implementation from ShadowFlame Class Library.
         }
+        
+
+        private void breakfastToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpeakCategory(ListCategory.Breakfast);
+        }
+
+        private void lunchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpeakCategory(ListCategory.Lunch);
+        }
+
+        private void dinnerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpeakCategory(ListCategory.Dinner);
+        }
+
+        private void extrasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpeakCategory(ListCategory.Extras);
+        }
+
+        private void everythingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpeakCategory(ListCategory.EntireList);
+        }
+        #endregion
     }
 }

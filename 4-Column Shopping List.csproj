@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
@@ -89,10 +89,10 @@
     <AssemblyOriginatorKeyFile>4-Column Shopping List_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>0C6138EB5B30945D4A25256363A712ACB3634D78</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>F859524D19EA46E5BD964CA853A1FB5E0EE85B6D</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>4-Column Shopping List_4_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>4-Column Shopping List_6_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=6.2.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
@@ -141,6 +141,8 @@
     <None Include="4-Column Shopping List_2_TemporaryKey.pfx" />
     <None Include="4-Column Shopping List_3_TemporaryKey.pfx" />
     <None Include="4-Column Shopping List_4_TemporaryKey.pfx" />
+    <None Include="4-Column Shopping List_5_TemporaryKey.pfx" />
+    <None Include="4-Column Shopping List_6_TemporaryKey.pfx" />
     <None Include="4-Column Shopping List_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
