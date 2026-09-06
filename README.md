@@ -7,7 +7,7 @@ A Windows Forms application that helps you organize your shopping list into four
 - **Four Category Organization**: Separate your shopping items into Breakfast, Lunch, Dinner, and Extras columns for better meal planning
 - **Easy Item Management**: 
   - Add items by typing and pressing Enter
-  - Delete items with a single click
+  - Delete items with using the file menu or the del key.
   - Real-time item count for each category
 - **Text-to-Speech**: Listen to your shopping lists read aloud with built-in speech synthesis
   - Choose to hear individual categories or your entire list
@@ -17,9 +17,9 @@ A Windows Forms application that helps you organize your shopping list into four
 
 ## System Requirements
 
-- Windows Operating System
-- .NET Framework 4.8.1 or later
-- Speech synthesis support (included in Windows)
+- Windows Operating System (Windows 10 or later recommended)
+- .NET 10 (net10.0) SDK and runtime for building and running from source
+- Speech synthesis support (included in Windows) or the Microsoft.Windows.Compatibility package when needed
 
 ## Installation
 
@@ -36,30 +36,31 @@ A Windows Forms application that helps you organize your shopping list into four
 
 ### Removing Items
 1. Click on an item in any list to select it
-2. Click the corresponding "Delete" button to remove the selected item
+2. Press the Delete key or use the "Delete" option in the file menu
+
 
 ### Listening to Your List
-1. Select a category from the "Speak List" dropdown menu
+1. Select a category from the "Speak List" dropdown menu, or
 2. Choose "Entire List" to hear all categories
-3. Click the "Speak List" button to hear your items read aloud
+
 
 ### Saving Your List
-1. Click the "Save List" button
+1. Your list is saved automatically when adding or removing items.
 2. Your list will be saved to: `Documents\4-Column Shopping List\Shopping List.txt`
 3. The file includes the date and organized categories with item counts
 
 ## Building from Source
 
 ### Prerequisites
-- Visual Studio 2019 or later
-- .NET Framework 4.8.1 SDK
+- Visual Studio 2022 or later (Visual Studio 2026 recommended)
+- .NET 10 SDK
 
 ### Build Steps
 1. Clone the repository:
    ```
    git clone https://github.com/HiTechCharles/4-Column-Shopping-List.git
    ```
-2. Open `4-Column Shopping List.csproj` in Visual Studio
+2. Open `4-Column Shopping List.csproj` in Visual Studio (or use `dotnet build` / `dotnet run` with the .NET 10 SDK)
 3. Build the solution (Ctrl+Shift+B)
 4. Run the application (F5)
 

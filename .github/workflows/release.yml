@@ -76,28 +76,28 @@ jobs:
 		body: |
 		  ## 4-Column Shopping List ${{ steps.version.outputs.tag }}
 
-		  ### Installation Instructions
+	  ### Installation Instructions
 
-		  1. Download the appropriate version for your system:
-			 - **4-Column-Shopping-List-x86.zip** - For 32-bit Windows systems
-			 - **4-Column-Shopping-List-x64.zip** - For 64-bit Windows systems
+	1. Download the appropriate version for your system:
+	   - **4-Column-Shopping-List-x86.zip** - For 32-bit Windows systems
+	   - **4-Column-Shopping-List-x64.zip** - For 64-bit Windows systems
 
-		  2. Extract the ZIP file to a folder on your computer
+	2. Extract the ZIP file to a folder on your computer
 
-		  3. Ensure you have .NET Framework 4.8.1 installed:
-			 - Download from: https://dotnet.microsoft.com/download/dotnet-framework/net481
+	3. Ensure you have the .NET 10 runtime installed for your platform if running from published binaries, or the .NET 10 SDK if building from source:
+	   - Download from: https://dotnet.microsoft.com/en-us/download/dotnet/10
 
-		  4. Run **4-Column Shopping List.exe**
+	4. Run **4-Column Shopping List.exe**
 
-		  ### What's Changed
+	### What's Changed
 
-		  - Update this section with your release notes
+	- Update this section with your release notes
 
-		  ### System Requirements
+	### System Requirements
 
-		  - Windows 7 SP1 or later
-		  - .NET Framework 4.8.1 or later
-		  - x86 (32-bit) or x64 (64-bit) processor
+	- Windows 10 or later
+	- .NET 10 runtime (or .NET 10 SDK for building from source)
+	- x86 (32-bit) or x64 (64-bit) processor
 		draft: false
 		prerelease: false
 		files: |
