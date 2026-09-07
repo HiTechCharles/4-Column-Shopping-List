@@ -23,17 +23,30 @@ namespace _4_Column_Shopping_List
             Environment.GetEnvironmentVariable("onedriveconsumer") ?? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             "documents", "4-Column Shopping List");  //application directory
         public static string SelectedFile = Path.Combine(AppDirectory, "Shopping List.txt"); //output order list file
+<<<<<<< Updated upstream
+=======
+        public static string TTSSettings = Path.Combine(AppDirectory, "TTS_Settings.txt");
+        #endregion
+>>>>>>> Stashed changes
 
         #region form1 loading and closingpublic Form1()
         public Form1()
         {
             InitializeComponent();
 
+<<<<<<< Updated upstream
             Directory.CreateDirectory(AppDirectory); //ensure application directory exists
             // Initialize reusable synthesizer once to avoid repeated allocations.
             speechSynthesizer = new SpeechSynthesizer();
             speechSynthesizer.Rate = 3; // set a faster speaking rate
             speechSynthesizer.Volume = 100; // set max volume
+=======
+                TTSSetup TTS = new TTSSetup();
+            if (!File.Exists(TTSSettings))
+            {
+                TTS.ShowDialog();
+            }
+>>>>>>> Stashed changes
         }
 
         private void Form1_Load(object sender, EventArgs e)
