@@ -3,12 +3,18 @@ using System.IO;
 using System.Speech.Synthesis;
 using System.Text;
 using System.Windows.Forms;
+using ShadowFlame;
 
 namespace _4_Column_Shopping_List
 {
     public partial class Form1 : Form
     {
-            private enum ListCategory
+        #region Constants and fields
+        private const string About_Title = "4-Column Shopping List";
+        private const string About_CompanyText = "HiTechCharles\r\n4-Column Shopping List\r\n\r\nV4.9, developed using C# via Visual Studio 2026";
+        private const string About_HelpText = "This application allows you to create a shopping list divided into four categories: Breakfast, Lunch, Dinner, and Extras. \r\n\r\nYou can add items to each category, delete selected items, and have the list read aloud using text-to-speech functionality.\r\n\r\nThe list is saved automatically when items are added or removed.  The view List option allows viewing of the entire list. ";
+
+        private enum ListCategory
         {
             Breakfast = 0,
             Lunch = 1,
@@ -16,24 +22,28 @@ namespace _4_Column_Shopping_List
             Extras = 3,
             EntireList = 4
         }
-
-
-        private SpeechSynthesizer speechSynthesizer;
         public static string AppDirectory = Path.Combine(
             Environment.GetEnvironmentVariable("onedriveconsumer") ?? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             "documents", "4-Column Shopping List");  //application directory
         public static string SelectedFile = Path.Combine(AppDirectory, "Shopping List.txt"); //output order list file
+        public static string TTSSettings = Path.Combine(AppDirectory, "TTS_Settings.txt");
+
+        #endregion
 
         #region form1 loading and closingpublic Form1()
         public Form1()
         {
             InitializeComponent();
-
+            this.Font = GlobalFontService.Instance.CurrentFont;
+            MainMenuMST.Font = GlobalFontService.Instance.CurrentFont;
             Directory.CreateDirectory(AppDirectory); //ensure application directory exists
-            // Initialize reusable synthesizer once to avoid repeated allocations.
-            speechSynthesizer = new SpeechSynthesizer();
-            speechSynthesizer.Rate = 3; // set a faster speaking rate
-            speechSynthesizer.Volume = 100; // set max volume
+
+            //if no speech settings file exists, launch the TTS setup form
+            if (!File.Exists(TTSSettings))
+            {
+                TTSSetup TTS = new TTSSetup();
+                TTS.ShowDialog();
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -50,8 +60,7 @@ namespace _4_Column_Shopping_List
             base.OnFormClosing(e);
             try
             {
-                speechSynthesizer?.SpeakAsyncCancelAll();
-                speechSynthesizer?.Dispose();
+                ShadowFlame.WindowsTTS.Stop();
                 Save(); // Save the list on form closing
             }
             catch
@@ -142,7 +151,7 @@ namespace _4_Column_Shopping_List
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, $"Failed to save file: {ex.Message}", "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DisplayMessage.ShowError($"Failed to save file: {ex.Message}", "Save Error");
             }
         }
 
@@ -173,8 +182,7 @@ namespace _4_Column_Shopping_List
             var speechText = sb.ToString();
             if (!string.IsNullOrWhiteSpace(speechText))
             {
-                speechSynthesizer.SpeakAsyncCancelAll(); // Cancel any ongoing speech
-                speechSynthesizer.SpeakAsync(speechText);
+                ShadowFlame.WindowsTTS.Speak(speechText);
             }
         }
         #endregion
@@ -249,18 +257,19 @@ namespace _4_Column_Shopping_List
                 DeleteSelectedItem(ExtrasListLB, ExtrasItemCountTB, "Extras");
             } else {
                 // Handle the case where no list box has focus
-                MessageBox.Show("Please select an item to delete.", "No Item Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DisplayMessage.ShowInfo("Please select an item to delete.", "No Item Selected");
             }
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show("Are you sure you want to create a new list? This will clear all current items.", "Confirm New List", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (result == DialogResult.Yes)
+            bool result = DisplayMessage.GetConfirmation("Are you sure you want to create a new list? This will clear all current items.", "Confirm New List");
+            
+            if (result)
             {
                 Save();
-                MessageBox.Show("The previous list has been saved.\r\n\r\nThe list is located in the Documents folder, which will be overwritten when you add the first item.", "New List", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                
+                DisplayMessage.ShowInfo("The previous list has been saved.\r\n\r\nThe list is located in the Documents folder, which will be overwritten when you add the first item.", "New List");  
+                        
                 // Clear all list boxes and item counts
                 BreakfastListLB.Items.Clear();
                 LunchListLB.Items.Clear();
@@ -275,12 +284,15 @@ namespace _4_Column_Shopping_List
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //future aboutbox implementation from ShadowFlame Class Library.
+            ShadowFlame.AboutForm AF = new ShadowFlame.AboutForm(About_Title, About_CompanyText, About_HelpText);
+            AF.ShowDialog();
         }
 
         private void viewListFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //future View Report implementation from ShadowFlame Class Library.
+            ShadowFlame.ViewReport VR = new ViewReport("View 4-Column Shopping List", SelectedFile, null);
+            System.Threading.Tasks.Task.Delay(100).Wait(); // slight delay to ensure file is ready
+            VR.ShowDialog();
         }
         
 

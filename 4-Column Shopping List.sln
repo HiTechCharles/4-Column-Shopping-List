@@ -5,6 +5,8 @@ VisualStudioVersion = 18.4.11626.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4-Column Shopping List", "4-Column Shopping List.csproj", "{96B6B188-10FD-472A-A0C9-03562842275E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowFlame", "..\ShadowFlame\ShadowFlame\ShadowFlame.csproj", "{E080143C-9BF9-7CFD-E2A5-19B26A50AF82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,14 @@ Global
 		{96B6B188-10FD-472A-A0C9-03562842275E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{96B6B188-10FD-472A-A0C9-03562842275E}.Release|x64.ActiveCfg = Release|x64
 		{96B6B188-10FD-472A-A0C9-03562842275E}.Release|x64.Build.0 = Release|x64
+		{E080143C-9BF9-7CFD-E2A5-19B26A50AF82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E080143C-9BF9-7CFD-E2A5-19B26A50AF82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E080143C-9BF9-7CFD-E2A5-19B26A50AF82}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E080143C-9BF9-7CFD-E2A5-19B26A50AF82}.Debug|x64.Build.0 = Debug|Any CPU
+		{E080143C-9BF9-7CFD-E2A5-19B26A50AF82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E080143C-9BF9-7CFD-E2A5-19B26A50AF82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E080143C-9BF9-7CFD-E2A5-19B26A50AF82}.Release|x64.ActiveCfg = Release|Any CPU
+		{E080143C-9BF9-7CFD-E2A5-19B26A50AF82}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
